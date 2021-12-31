@@ -17,14 +17,6 @@ function GridList() {
       {allIds.map((id) => (
         <GridItem thumbnailUrl={thumbnailById[id].thumbnailUrl} />
       ))}
-      {/* <GridItem />
-      <GridItem />
-      <GridItem />
-      <GridItem />
-      <GridItem />
-      <GridItem />
-      <GridItem />
-      <GridItem /> */}
     </GridListContainer>
   );
 }
@@ -35,6 +27,4 @@ const GridListContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-
-  background-color: #92ee92;
 `;
