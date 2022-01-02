@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ImageFile } from './uploadAPI';
 
 export interface UploadState {
-  firstImg: Blob | null;
-  secondImg: Blob | null;
-  thirdImg: Blob | null;
+  firstImg: Blob | string;
+  secondImg: Blob | string;
+  thirdImg: Blob | string;
   text: string;
 
   status: string | undefined;
@@ -12,9 +12,9 @@ export interface UploadState {
 }
 
 const initialState: UploadState = {
-  firstImg: null,
-  secondImg: null,
-  thirdImg: null,
+  firstImg: '',
+  secondImg: '',
+  thirdImg: '',
   text: '',
   status: undefined,
   error: undefined,
@@ -42,8 +42,13 @@ const uploadSlice = createSlice({
     onChangeTextarea(state, action: PayloadAction<string>) {
       state.text = action.payload;
     },
-    resetState(state, action) {
-      state = initialState;
+    resetState(state) {
+      state.firstImg = '';
+      state.secondImg = '';
+      state.thirdImg = '';
+      state.text = '';
+      state.status = undefined;
+      state.error = undefined;
     },
   },
   extraReducers(builder) {},

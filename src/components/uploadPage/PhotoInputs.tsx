@@ -20,17 +20,17 @@ function PhotoInputs() {
   return (
     <PhotosInputContainer>
       <PhotoLabel onChange={(e) => handleAddImage(e, 1)}>
-        {firstImg ? <PhotoInputImg src={URL.createObjectURL(firstImg)} /> : <PhotoInputIcon />}
+        {typeof firstImg === 'string' ? <PhotoInputIcon /> : <PhotoInputImg src={URL.createObjectURL(firstImg)} />}
         {InputTag}
       </PhotoLabel>
 
       <PhotoLabel onChange={(e) => handleAddImage(e, 2)}>
-        {secondImg ? <PhotoInputImg src={URL.createObjectURL(secondImg)} /> : <PhotoInputIcon />}
+        {typeof secondImg === 'string' ? <PhotoInputIcon /> : <PhotoInputImg src={URL.createObjectURL(secondImg)} />}
         {InputTag}
       </PhotoLabel>
 
       <PhotoLabel onChange={(e) => handleAddImage(e, 3)}>
-        {thirdImg ? <PhotoInputImg src={URL.createObjectURL(thirdImg)} /> : <PhotoInputIcon />}
+        {typeof thirdImg === 'string' ? <PhotoInputIcon /> : <PhotoInputImg src={URL.createObjectURL(thirdImg)} />}
         {InputTag}
       </PhotoLabel>
     </PhotosInputContainer>
@@ -41,6 +41,7 @@ export default PhotoInputs;
 
 const PhotosInputContainer = styled.div`
   width: 100%;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
 `;
@@ -49,7 +50,6 @@ const PhotoLabel = styled.label`
   position: relative;
   width: 31%;
   padding-bottom: 31%;
-  margin: 0.5rem;
   border-radius: 8px;
   background: #d0d0d0;
 
