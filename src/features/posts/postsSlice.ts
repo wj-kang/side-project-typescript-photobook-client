@@ -1,47 +1,47 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import FAKE_DATA from './FAKE_DATE';
-import { Thumbnails } from './gridListAPI';
+import { Thumbnails } from './postsAPI';
 
-export interface GridListState {
+export interface PostsState {
   allIds: number[];
   thumbnailById: Thumbnails;
   status: string | undefined;
   error: string | undefined;
 }
 
-const initialState: GridListState = {
+const initialState: PostsState = {
   allIds: [],
   thumbnailById: {},
   status: undefined,
   error: undefined,
 };
 
-export const fetchGridList = createAsyncThunk('gridList/getData', async () => {
+export const fetchPosts = createAsyncThunk('posts/getData', async () => {
   const response = await FAKE_DATA;
   console.log(response);
-  return response.gridList;
+  return response.posts;
 });
 
-const gridListSlice = createSlice({
-  name: 'gridList',
+const postsSlice = createSlice({
+  name: 'posts',
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchGridList.pending, (state, action) => {
+      .addCase(fetchPosts.pending, (state, action) => {
         state.status = 'loading';
       })
-      .addCase(fetchGridList.fulfilled, (state, action) => {
+      .addCase(fetchPosts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.allIds = action.payload.allIds;
         state.thumbnailById = action.payload.thumbnailById;
       })
-      .addCase(fetchGridList.rejected, (state, action) => {
+      .addCase(fetchPosts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
   },
 });
 
-export const {} = gridListSlice.actions;
-export default gridListSlice.reducer;
+export const {} = postsSlice.actions;
+export default postsSlice.reducer;
