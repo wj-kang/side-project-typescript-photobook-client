@@ -1,15 +1,18 @@
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
+import Breadcrumb from '../components/mainPage/Breadcrumb';
+import Navbar from '../components/Navbar';
 
-type LayoutProps = {
-  navbar: React.ReactNode;
-  children: React.ReactNode;
-};
-
-function Layout({ navbar, children }: LayoutProps) {
+function Layout() {
   return (
     <Page>
-      <NavbarPosition>{navbar}</NavbarPosition>
-      <PageContainer>{children}</PageContainer>
+      <NavbarPosition>
+        <Navbar />
+      </NavbarPosition>
+      <PageContainer>
+        <Breadcrumb />
+        <Outlet />
+      </PageContainer>
     </Page>
   );
 }
@@ -28,7 +31,7 @@ const NavbarPosition = styled.div`
 `;
 
 const PageContainer = styled.div`
-  width: min(50rem, 100%);
+  padding: 1rem 0.5rem;
+  width: min(45rem, 100%);
   min-width: 20rem;
-  background-color: #fcff9a;
 `;
