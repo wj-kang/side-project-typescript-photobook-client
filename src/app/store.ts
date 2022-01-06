@@ -1,11 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import gridListReducer from '../features/gridList/gridListSlice';
+import albumReducer from '../features/album/albumSlice';
 import uploadReducer from '../features/upload/uploadSlice';
+import userReducer from '../features/user/userSlice';
+import albumListReducer from '../features/albumList/albumListSlice';
 
 export const store = configureStore({
   reducer: {
-    gridList: gridListReducer,
+    user: userReducer,
+    album: albumReducer,
     upload: uploadReducer,
+    albumList: albumListReducer,
   },
 });
 

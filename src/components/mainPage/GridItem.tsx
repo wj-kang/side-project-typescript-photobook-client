@@ -32,7 +32,8 @@ const Item = styled.div`
 
 const ItemImg = styled.img`
   position: absolute;
-  width: 100%;
+  /* width: 100%; */
+  height: 100%;
   border: 1px solid #f0f0f0;
   object-fit: cover;
 `;
