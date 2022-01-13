@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { AlbumInfos } from './albumListAPI';
+import { AlbumInfos, AlbumInfo } from './albumListAPI';
 
 export interface AlbumListState {
   albumIds: number[];
   albumInfoById: AlbumInfos;
+  editModeOn: boolean;
   status: string | undefined;
   error: string | undefined;
 }
@@ -12,6 +13,7 @@ export interface AlbumListState {
 const initialState: AlbumListState = {
   albumIds: [],
   albumInfoById: {},
+  editModeOn: false,
   status: undefined,
   error: undefined,
 };
@@ -24,7 +26,34 @@ export const fetchAlbumList = createAsyncThunk('albumList/getData', async () => 
 const AlbumSlice = createSlice({
   name: 'albumList',
   initialState,
-  reducers: {},
+  reducers: {
+    addNewAlbum(state, action: PayloadAction<AlbumInfo>) {
+      const { albumId, albumTag, albumName, thumbnailUrl, count } = action.payload;
+      state.albumIds = [albumId, ...state.albumIds];
+      state.albumInfoById[albumId] = {
+        albumId,
+        albumTag,
+        albumName,
+        thumbnailUrl,
+        count,
+      };
+    },
+    deleteAlbum(state, action: PayloadAction<{ albumId: number }>) {
+      state.albumIds = state.albumIds.filter((id) => id !== action.payload.albumId);
+      state.editModeOn = false;
+    },
+    editAlbumName(state, action: PayloadAction<{ albumId: number; albumName: string | null }>) {
+      const { albumId, albumName } = action.payload;
+      state.albumInfoById[albumId].albumName = albumName;
+      state.editModeOn = false;
+    },
+    toggleEditMode(state) {
+      state.editModeOn = !state.editModeOn;
+    },
+    setEditModeOff(state) {
+      state.editModeOn = false;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchAlbumList.pending, (state, action) => {
@@ -45,5 +74,5 @@ const AlbumSlice = createSlice({
   },
 });
 
-export const {} = AlbumSlice.actions;
+export const { addNewAlbum, deleteAlbum, editAlbumName, toggleEditMode, setEditModeOff } = AlbumSlice.actions;
 export default AlbumSlice.reducer;

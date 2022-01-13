@@ -1,9 +1,13 @@
+import albumAPI from '../../apis/albumAPI';
+
+export type AlbumInfo = {
+  albumId: number;
+  albumTag: string;
+  albumName: string | null;
+  thumbnailUrl: string;
+  count: number;
+};
+
 export type AlbumInfos = {
-  [albumId: number]: {
-    albumId: number;
-    albumTag: string;
-    albumName: string;
-    thumbnailUrl: string;
-    count: number;
-  };
+  [albumId: number]: AlbumInfo;
 };
