@@ -7,7 +7,7 @@ export default function GoBackButton() {
 
   return (
     <ButtonContainer>
-      <StyledButton fontSize="medium" onClick={(e) => navigate(-1)} />
+      <StyledButton fontSize="inherit" onClick={() => navigate(-1)} />
     </ButtonContainer>
   );
 }
@@ -16,7 +16,8 @@ const ButtonContainer = styled.div`
   position: relative;
   width: 100%;
   display: flex;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  font-size: 2rem;
 `;
 
 const StyledButton = styled(ArrowBackIcon)`
