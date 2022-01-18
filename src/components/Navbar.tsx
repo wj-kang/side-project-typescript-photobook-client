@@ -1,9 +1,19 @@
 import styled from 'styled-components';
 
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import { useNavigate } from 'react-router-dom';
+
 function Navbar() {
+  const navigate = useNavigate();
   return (
     <NavbarContainer>
-      <h1>navbar</h1>
+      <Title onClick={(e) => navigate('/main/albums')}>PhotoBook 📚</Title>
+
+      <HeaderBtns>
+        <UserBtn onClick={(e) => navigate('/main/user')} fontSize="inherit" />
+        <LogoutBtn onClick={(e) => navigate('/logout')} fontSize="inherit" />
+      </HeaderBtns>
     </NavbarContainer>
   );
 }
@@ -16,7 +26,51 @@ const NavbarContainer = styled.nav`
   left: 0;
   right: 0;
   height: 4rem;
-  z-index: 999;
-  opacity: 0.95;
-  background-color: #b5ffff;
+  z-index: 99;
+  opacity: 0.96;
+
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: #505050;
+`;
+
+const Title = styled.h1`
+  margin-left: 3rem;
+  font-family: 'Baloo Bhai 2', cursive;
+  font-size: 2rem;
+
+  cursor: pointer;
+  transition: all 300ms ease-in;
+  :hover {
+    opacity: 0.7;
+  }
+`;
+
+const HeaderBtns = styled.div`
+  margin-right: 3rem;
+  display: flex;
+  font-size: 2rem;
+`;
+
+const LogoutBtn = styled(LogoutIcon)`
+  margin-left: 1.5rem;
+  cursor: pointer;
+  transition: all 300ms ease-in;
+  :hover {
+    opacity: 0.7;
+  }
+`;
+
+const UserBtn = styled(PersonIcon)`
+  cursor: pointer;
+  transition: all 300ms ease-in;
+  :hover {
+    opacity: 0.7;
+  }
 `;
