@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import PhotoSlider from '../../components/contentPage/PhotoSlider';
 import { useEffect } from 'react';
@@ -22,9 +21,17 @@ export default function Content({ postId, handleClose }: ContentProps) {
 
   return (
     <>
-      <BackgroundDimmer>
+      <BackgroundDimmer
+        onClick={(e) => {
+          handleClose();
+        }}
+      >
         <Background>
-          <Container>
+          <Container
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
             {status === 'loading' ? (
               <Spinner backgroundColor="rgb(0, 0, 0, 0)" />
             ) : (
