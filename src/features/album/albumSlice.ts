@@ -22,15 +22,25 @@ const initialState: AlbumState = {
   error: undefined,
 };
 
-export const fetchAlbum = createAsyncThunk('album/getData', async (albumTag: string) => {
-  const response = await axios.get(`${process.env.REACT_APP_SERVER_BASE_URL}/album/${albumTag}`);
+export const fetchAlbum = createAsyncThunk('album/getData', async (albumId: number) => {
+  const response = await axios.get(`${process.env.REACT_APP_SERVER_BASE_URL}/album/${albumId}`);
   return response.data;
 });
 
 const AlbumSlice = createSlice({
   name: 'album',
   initialState,
-  reducers: {},
+  reducers: {
+    resetAlbumState(state) {
+      state.albumId = undefined;
+      state.albumName = undefined;
+      state.albumTag = undefined;
+      state.postIds = [];
+      state.postThumbnailById = {};
+      state.status = undefined;
+      state.error = undefined;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchAlbum.pending, (state, action) => {
@@ -51,5 +61,5 @@ const AlbumSlice = createSlice({
   },
 });
 
-export const {} = AlbumSlice.actions;
+export const { resetAlbumState } = AlbumSlice.actions;
 export default AlbumSlice.reducer;
