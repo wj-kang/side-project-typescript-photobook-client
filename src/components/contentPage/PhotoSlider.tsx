@@ -13,6 +13,7 @@ type PhotoSliderProps = {
 
 export default function PhotoSlider({ photos }: PhotoSliderProps) {
   const { photo1, photo2, photo3 } = photos;
+  console.log(photo1, photo2, photo3);
   const setting = {
     infinite: false,
     speed: 500,
@@ -26,8 +27,8 @@ export default function PhotoSlider({ photos }: PhotoSliderProps) {
       <SliderContainer>
         <StyledSlider {...setting}>
           <ImageDiv url={photo1} />
-          <ImageDiv url={photo2} />
-          <ImageDiv url={photo3} />
+          {photo2 && <ImageDiv url={photo2} />}
+          {photo3 && <ImageDiv url={photo3} />}
         </StyledSlider>
       </SliderContainer>
     </Container>
@@ -35,7 +36,7 @@ export default function PhotoSlider({ photos }: PhotoSliderProps) {
 }
 
 const Container = styled.div`
-  width: min(32rem, 100%);
+  width: 100%;
 `;
 
 const SliderContainer = styled.div`
@@ -50,22 +51,22 @@ const StyledSlider = styled(Slider)`
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: black;
+  background-color: #383838;
   color: white;
 
   .slick-prev {
-    left: 1rem;
+    left: -4rem;
     z-index: 999;
     :before {
-      font-size: 3rem;
+      font-size: 2.5rem;
     }
   }
 
   .slick-next {
-    right: 2.5rem;
+    right: -2.75rem;
     z-index: 999;
     :before {
-      font-size: 3rem;
+      font-size: 2.5rem;
     }
   }
 
@@ -81,7 +82,6 @@ const StyledSlider = styled(Slider)`
 
 const ImageDiv = styled.div<{ url: string }>`
   height: 100%;
-
   background: url(${(props) => props.url});
   background-size: cover;
   background-position: center;
