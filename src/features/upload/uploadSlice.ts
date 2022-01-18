@@ -42,7 +42,7 @@ const uploadSlice = createSlice({
     onChangeTextarea(state, action: PayloadAction<string>) {
       state.text = action.payload;
     },
-    resetState(state) {
+    resetUploadState(state) {
       state.firstImg = '';
       state.secondImg = '';
       state.thirdImg = '';
@@ -54,5 +54,5 @@ const uploadSlice = createSlice({
   extraReducers(builder) {},
 });
 
-export const { addImage, onChangeTextarea, resetState } = uploadSlice.actions;
+export const { addImage, onChangeTextarea, resetUploadState } = uploadSlice.actions;
 export default uploadSlice.reducer;
