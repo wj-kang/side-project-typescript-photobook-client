@@ -9,6 +9,7 @@ import TextBox from '../../components/uploadPage/TextBox';
 import Button from '../../styles/Button';
 import GoBackButton from '../../components/GoBackButton';
 import Spinner from '../../components/Spinner';
+import { mediaQueries } from '../../styles/mediaQueries';
 
 export default function Upload() {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ export default function Upload() {
 
 const PageTitle = styled.h1`
   font-size: 1.625rem;
+  ${mediaQueries('md')('font-size: 1.5rem;')}
 `;
 
 const Form = styled.form`

@@ -3,6 +3,7 @@ import authAPI from '../apis/authAPI';
 import styled from 'styled-components';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
+import { mediaQueries } from '../styles/mediaQueries';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ function Navbar() {
 
   return (
     <NavbarContainer>
-      <Title onClick={(e) => navigate('/main')}>PhotoBook 📚</Title>
+      <Title onClick={(e) => navigate('/main')}>📷 PhotoBook</Title>
 
       <HeaderBtns>
         <UserBtn onClick={(e) => navigate('/main/account')} fontSize="inherit" />
@@ -43,10 +44,13 @@ const NavbarContainer = styled.nav`
   align-items: center;
 
   color: #505050;
+
+  padding: 0 3rem;
+  ${mediaQueries('md')('padding: 0 2rem;')}
+  ${mediaQueries('sm')('padding: 0 1rem;')}
 `;
 
 const Title = styled.h1`
-  margin-left: 3rem;
   font-family: 'Baloo Bhai 2', cursive;
   font-size: 2rem;
 
@@ -55,12 +59,15 @@ const Title = styled.h1`
   :hover {
     opacity: 0.7;
   }
+
+  ${mediaQueries('md')('font-size: 1.875rem;')}
+  ${mediaQueries('sm')('font-size: 1.625rem;')}
 `;
 
 const HeaderBtns = styled.div`
-  margin-right: 3rem;
   display: flex;
   font-size: 2rem;
+  ${mediaQueries('md')('font-size: 1.875rem;')}
 `;
 
 const LogoutBtn = styled(LogoutIcon)`

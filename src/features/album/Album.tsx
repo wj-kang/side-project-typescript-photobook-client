@@ -131,10 +131,9 @@ const Title = styled.h1`
   height: 100%;
   text-align: center;
   line-height: 100%;
-
   font-size: 1.625rem;
   color: #505050;
-  ${mediaQueries('md')('font-size: 1.5rem;')}
+  ${mediaQueries('md')('font-size: 1.5rem; ')}
 `;
 
 const ButtonsContainer = styled.div`

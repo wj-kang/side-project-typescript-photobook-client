@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import Spinner from '../Spinner';
 import { fetchAlbum } from '../../features/album/albumSlice';
+import { mediaQueries } from '../../styles/mediaQueries';
 
 export default function AlbumCards() {
   const dispatch = useAppDispatch();
@@ -176,4 +177,5 @@ const AlbumTitle = styled.h3`
   font-size: 1.5rem;
   color: white;
   margin-right: 0.5rem;
+  ${mediaQueries('sm')('font-size: 1.25rem;')}
 `;

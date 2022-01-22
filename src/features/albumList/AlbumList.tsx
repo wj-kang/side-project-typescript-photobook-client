@@ -6,6 +6,7 @@ import { toggleEditMode, setEditModeOff, createNewAlbum } from './albumListSlice
 import Button from '@mui/material/Button';
 import { useEffect } from 'react';
 import Spinner from '../../components/Spinner';
+import { mediaQueries } from '../../styles/mediaQueries';
 
 export default function AlbumList() {
   const dispatch = useAppDispatch();
@@ -55,12 +56,14 @@ const Title = styled.h1`
 
   font-size: 1.625rem;
   color: #505050;
+  ${mediaQueries('md')('font-size: 1.5rem;')}
 `;
 
 const ButtonsContainer = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
   display: flex;
   justify-content: end;
+  align-items: center;
 `;
 
 const ButtonContainer = styled.div`
@@ -70,7 +73,6 @@ const ButtonContainer = styled.div`
 const AlbumsContainer = styled.div`
   margin-top: 1rem;
   width: 100%;
-  padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
 `;
