@@ -1,18 +1,23 @@
+import { useNavigate } from 'react-router-dom';
+import authAPI from '../apis/authAPI';
 import styled from 'styled-components';
-
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
-import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const navigate = useNavigate();
+
+  function handleLogout() {
+    authAPI.post('/logout').then(() => navigate('/'));
+  }
+
   return (
     <NavbarContainer>
-      <Title onClick={(e) => navigate('/main/albums')}>PhotoBook 📚</Title>
+      <Title onClick={(e) => navigate('/main')}>PhotoBook 📚</Title>
 
       <HeaderBtns>
-        <UserBtn onClick={(e) => navigate('/main/user')} fontSize="inherit" />
-        <LogoutBtn onClick={(e) => navigate('/logout')} fontSize="inherit" />
+        <UserBtn onClick={(e) => navigate('/main/account')} fontSize="inherit" />
+        <LogoutBtn onClick={handleLogout} fontSize="inherit" />
       </HeaderBtns>
     </NavbarContainer>
   );
