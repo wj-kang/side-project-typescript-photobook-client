@@ -5,6 +5,7 @@ import sharedAPI from '../apis/sharedAPI';
 import GridItem from '../components/mainPage/GridItem';
 import Spinner from '../components/Spinner';
 import Content from '../features/content/Content';
+import { mediaQueries } from '../styles/mediaQueries';
 
 interface AlbumData {
   albumId: number;
@@ -58,7 +59,8 @@ function SharedPage() {
           <Spinner backgroundColor="rgb(0, 0, 0, 0.4)" />
         ) : (
           <PageContainer>
-            <HeaderTitle>{`[Shared Album] ${data?.albumName}`}</HeaderTitle>
+            <HeaderTitle>[Shared Album]</HeaderTitle>
+            <HeaderTitle>{data?.albumName}</HeaderTitle>
 
             {data?.postIds.length === 0 ? (
               <H3>{`Oops. It seems there's nothing in this album.`}</H3>
@@ -129,6 +131,9 @@ const Title = styled.h1`
   :hover {
     opacity: 0.7;
   }
+
+  ${mediaQueries('md')('font-size: 1.875rem; margin-left: 2rem;')}
+  ${mediaQueries('sm')('font-size: 1.625rem; margin-left: 1rem;')}
 `;
 
 const PostsContainer = styled.div`
@@ -143,6 +148,9 @@ const HeaderTitle = styled.h1`
   text-align: center;
   font-size: 1.625rem;
   color: #505050;
+
+  ${mediaQueries('md')('font-size: 1.5rem;')}
+  ${mediaQueries('sm')('font-size: 1.25rem;')}
 `;
 
 const H3 = styled.h3`

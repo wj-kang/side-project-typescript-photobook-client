@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Spinner from '../components/Spinner';
 import { handleDeleteAccount } from '../features/user/userSlice';
+import { mediaQueries } from '../styles/mediaQueries';
 
 export default function AccountPage() {
   const dispatch = useAppDispatch();
@@ -66,13 +67,16 @@ const Desc = styled.p`
 `;
 
 const Form = styled.form`
-  margin-top: 0.5rem;
+  margin-top: 2.5rem;
   width: 100%;
   display: flex;
+
+  ${mediaQueries('sm')('flex-direction: column;')}
 `;
 
 const TextInput = styled.input`
   width: 100%;
+  height: 3rem;
   padding: 0.5rem;
   border: 1px solid #c0c0c0;
   border-radius: 0.5rem;
@@ -80,6 +84,7 @@ const TextInput = styled.input`
 
 const Btn = styled.button<{ btnOn: boolean }>`
   width: 6rem;
+  height: 3rem;
   margin-left: 0.25rem;
   font-size: 1rem;
   outline: none;
@@ -92,4 +97,6 @@ const Btn = styled.button<{ btnOn: boolean }>`
   :hover {
     ${(props) => (props.btnOn ? 'opacity: 0.8; transform: scale(1.01);' : null)}
   }
+
+  ${mediaQueries('sm')('margin-left: 0; width: 100%; margin-top: 0.4rem;')}
 `;

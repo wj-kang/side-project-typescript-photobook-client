@@ -17,10 +17,6 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/shared/:albumTag" element={<SharedPage />} />
         <Route path="main" element={<MainPageLayout />}>
-          {/* <Route path="albums" element={<AlbumList />} />
-          <Route path="albums/:albumTag" element={<Album />} />
-          <Route path="albums/:albumTag/upload" element={<Upload />} />
-          <Route path="account" element={<AccountPage />} /> */}
           <Route path="" element={<AlbumList />} />
           <Route path=":albumTag" element={<Album />} />
           <Route path=":albumTag/upload" element={<Upload />} />

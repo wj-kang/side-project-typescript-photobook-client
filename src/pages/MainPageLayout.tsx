@@ -38,7 +38,7 @@ const NavbarPosition = styled.div`
 `;
 
 const PageContainer = styled.div`
-  padding: 1rem 0.5rem;
+  padding: 2rem 1rem;
   width: min(45rem, 100%);
   min-width: 20rem;
 `;
