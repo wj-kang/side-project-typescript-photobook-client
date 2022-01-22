@@ -1,40 +1,54 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import authAPI from '../apis/authAPI';
-import { useAppDispatch } from '../app/hooks';
-import { userSignInSuccess, UserState } from '../features/user/userSlice';
+import userAPI from '../apis/userAPI';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import Spinner from '../components/Spinner';
+import { handleGuestEnter } from '../features/user/userSlice';
 
 function LandingPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.user);
 
-  async function handleGuestEnter() {
-    try {
-      const res = await authAPI.get('/guest');
-      const { type, email, username, thumbnail }: UserState = res.data;
-      dispatch(userSignInSuccess({ type, email, username, thumbnail }));
-      navigate('/main/albums');
-    } catch (err) {
-      console.error(err);
-    } finally {
-      //
-    }
+  useEffect(() => {
+    userAPI
+      .get('')
+      .then(() => navigate('/main'))
+      .catch(() => navigate('/'));
+  }, []);
+
+  async function handleClickGoogleSignIn() {
+    const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const redirect_uri = process.env.REACT_APP_GOOGLE_REDIRECTION_URI;
+
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=code&scope=email`;
+  }
+  async function handleClickGithubSignIn() {
+    const client_id = process.env.REACT_APP_GITHUB_CLIENT_ID;
+    const redirect_uri = process.env.REACT_APP_GITHUB_REDIRECTION_URI;
+
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=user:email&redirect_uri=${redirect_uri}`;
   }
 
-  async function handleGoogleSignIn() {}
-  async function handleGithubSignIn() {}
+  function handleClickGuestEnter() {
+    dispatch(handleGuestEnter())
+      .then(() => navigate('/main'))
+      .catch(console.error);
+  }
 
   return (
     <PageContainer>
+      {status === 'loading' ? <Spinner backgroundColor="rgb(0, 0, 0, 0.4)" /> : null}
       <Box>
         <TitleContainer>
           <Title>Photo Book📚</Title>
-          <Desc>Keep your memory, share your albums</Desc>
+          <Desc>Keep the memory, share the albums</Desc>
         </TitleContainer>
         <Buttons>
-          <Button onClick={handleGoogleSignIn}>Sign in with Google</Button>
-          <Button onClick={handleGithubSignIn}>Sign in with Github</Button>
-          <GuestButton onClick={handleGuestEnter}>Enter as a Guest</GuestButton>
+          <Button onClick={handleClickGoogleSignIn}>Sign in with Google</Button>
+          <Button onClick={handleClickGithubSignIn}>Sign in with Github</Button>
+          <GuestButton onClick={() => dispatch(handleClickGuestEnter)}>Enter as a Guest</GuestButton>
         </Buttons>
       </Box>
     </PageContainer>
