@@ -3,6 +3,7 @@ import albumReducer from '../features/album/albumSlice';
 import uploadReducer from '../features/upload/uploadSlice';
 import userReducer from '../features/user/userSlice';
 import albumListReducer from '../features/albumList/albumListSlice';
+import contentReducer from '../features/content/contentSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     album: albumReducer,
     upload: uploadReducer,
     albumList: albumListReducer,
+    content: contentReducer,
   },
 });
 

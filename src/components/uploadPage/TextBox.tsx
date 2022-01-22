@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { onChangeTextarea } from '../../features/upload/uploadSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { onChangeTextarea } from '../../features/upload/uploadSlice';
+import styled from 'styled-components';
 
 export default function TextBox() {
   const dispatch = useAppDispatch();

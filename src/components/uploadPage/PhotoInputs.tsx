@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { addImage } from '../../features/upload/uploadSlice';
+import styled from 'styled-components';
 import PhotoInputIcon from './PhotoInputIcon';
 import PhotoInputImg from './PhotoInputImg';
 
