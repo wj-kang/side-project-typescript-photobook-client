@@ -1,24 +1,31 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { deleteAlbum, editAlbumName, fetchAlbumList } from '../../features/albumList/albumListSlice';
+import { editAlbumName, deleteAlbum, fetchAlbumList, setSpinner } from '../../features/albumList/albumListSlice';
 import styled from 'styled-components';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import albumAPI from '../../apis/albumAPI';
+
+import Spinner from '../Spinner';
+import { fetchAlbum } from '../../features/album/albumSlice';
 
 export default function AlbumCards() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { albumIds, albumInfoById, editModeOn } = useAppSelector((state) => state.albumList);
+  const { albumIds, albumInfoById, editModeOn, status } = useAppSelector((state) => state.albumList);
 
   useEffect(() => {
     dispatch(fetchAlbumList());
   }, []);
 
-  function handleAlbumClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  function handleAlbumClick(albumId: number, albumTag: string) {
     if (editModeOn) return;
-    navigate(`/main/albums/${e.currentTarget.id}`);
+    dispatch(setSpinner('loading'));
+    dispatch(fetchAlbum(albumTag)) //
+      .then(() => {
+        dispatch(setSpinner(undefined));
+        navigate(`/main/${albumTag}`);
+      });
   }
 
   async function handleAlbumDelete(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
@@ -26,49 +33,59 @@ export default function AlbumCards() {
     if (!id) return;
     // eslint-disable-next-line no-restricted-globals
     if (confirm('🚨 DELETE\nPlease confirm to delete this album.\nAll photos in this album will be deleted.')) {
-      const res = await albumAPI.delete(`/${id}`);
-      if (res) {
-        dispatch(deleteAlbum({ albumId: Number(id) }));
-      }
+      dispatch(deleteAlbum(Number(id)));
     }
   }
 
   async function handleAlbumEditName(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
     const { id } = e.currentTarget;
-    const userInput = prompt('✏️EDIT ALBUM NAME\nEnter a new album name you want');
-    const res = await albumAPI.patch(`/${id}`, { albumName: userInput });
-    if (res) {
-      dispatch(editAlbumName({ albumId: Number(id), albumName: userInput }));
+    let userInput = prompt('✏️EDIT ALBUM NAME\nEnter a new album name you want');
+    if (!userInput) {
+      userInput = 'Undefined Album Name';
     }
+    dispatch(editAlbumName({ albumId: Number(id), albumName: userInput }));
   }
 
   return (
     <>
-      {albumIds.map((id) => (
-        <CardContainer>
-          <ButtonContainer editModeOn={editModeOn}>
-            <EditBtn id={`${id}`} fontSize="inherit" onClick={handleAlbumEditName} />
+      {status === 'loading' ? <Spinner backgroundColor="rgb(0, 0, 0, 0.4)" /> : null}
+      {albumIds.length < 1 ? (
+        <>
+          <H3>{`Create a new memory :)`}</H3>
+        </>
+      ) : (
+        albumIds.map((id) => (
+          <CardContainer>
+            <ButtonContainer editModeOn={editModeOn}>
+              <EditBtn id={`${id}`} fontSize="inherit" onClick={handleAlbumEditName} />
 
-            <DeleteBtn id={`${id}`} fontSize="inherit" onClick={handleAlbumDelete} />
-          </ButtonContainer>
-          <AlbumCard //
-            editModeOn={editModeOn}
-            id={albumInfoById[id].albumTag}
-            onClick={handleAlbumClick}
-          >
-            <AlbumThumbnailImg
-              src={albumInfoById[id].thumbnailUrl || 'https://wj-archive.s3.amazonaws.com/buildings-1804479.jpeg'}
-            />
-            <AlbumInfo editModeOn={editModeOn}>
-              <AlbumTitle>{albumInfoById[id].albumName}</AlbumTitle>
-              <AlbumTitle>{`(${albumInfoById[id].count})`}</AlbumTitle>
-            </AlbumInfo>
-          </AlbumCard>
-        </CardContainer>
-      ))}
+              <DeleteBtn id={`${id}`} fontSize="inherit" onClick={handleAlbumDelete} />
+            </ButtonContainer>
+            <AlbumCard //
+              editModeOn={editModeOn}
+              onClick={(e) => handleAlbumClick(albumInfoById[id].albumId, albumInfoById[id].albumTag)}
+            >
+              <AlbumThumbnailImg
+                src={albumInfoById[id].thumbnailUrl || 'https://wj-archive.s3.amazonaws.com/buildings-1804479.jpeg'}
+              />
+              <AlbumInfo editModeOn={editModeOn}>
+                <AlbumTitle>{albumInfoById[id].albumName}</AlbumTitle>
+                <AlbumTitle>{`(${albumInfoById[id].count})`}</AlbumTitle>
+              </AlbumInfo>
+            </AlbumCard>
+          </CardContainer>
+        ))
+      )}
     </>
   );
 }
+
+const H3 = styled.h3`
+  margin-top: 8rem;
+  text-align: center;
+  font-size: 1.25rem;
+  color: #c0c0c0;
+`;
 
 const CardContainer = styled.div`
   position: relative;
@@ -145,7 +162,7 @@ const AlbumInfo = styled.div<{ editModeOn: boolean }>`
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;ㅈ
 
   transition: all 300ms ease-in-out;
   ${(props) =>

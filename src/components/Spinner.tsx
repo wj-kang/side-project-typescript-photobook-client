@@ -13,7 +13,7 @@ export default function Spinner({ backgroundColor }: SpinnerProps) {
 
 const Background = styled.div<{ backgroundColor?: string }>`
   z-index: 999;
-  background: ${(props) => props.backgroundColor}
+  background: ${(props) => props.backgroundColor};
   position: fixed;
   top: 0;
   right: 0;
