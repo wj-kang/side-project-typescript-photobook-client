@@ -1,11 +1,13 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import GlobalStyle from './styles/globalStyles';
-import Layout from './pages/Layout';
+import MainPageLayout from './pages/MainPageLayout';
 import LandingPage from './pages/LandingPage';
 import Upload from './features/upload/Upload';
 import Album from './features/album/Album';
 import AlbumList from './features/albumList/AlbumList';
+import AccountPage from './pages/AccountPage';
+import SharedPage from './pages/SharedPage';
 
 function App() {
   return (
@@ -13,10 +15,16 @@ function App() {
       <GlobalStyle />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="main" element={<Layout />}>
-          <Route path="albums" element={<AlbumList />} />
+        <Route path="/shared/:albumTag" element={<SharedPage />} />
+        <Route path="main" element={<MainPageLayout />}>
+          {/* <Route path="albums" element={<AlbumList />} />
           <Route path="albums/:albumTag" element={<Album />} />
           <Route path="albums/:albumTag/upload" element={<Upload />} />
+          <Route path="account" element={<AccountPage />} /> */}
+          <Route path="" element={<AlbumList />} />
+          <Route path=":albumTag" element={<Album />} />
+          <Route path=":albumTag/upload" element={<Upload />} />
+          <Route path="account" element={<AccountPage />} />
         </Route>
       </Routes>
     </>
