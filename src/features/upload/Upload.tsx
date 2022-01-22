@@ -1,53 +1,42 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { resetUploadState } from './uploadSlice';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import postAPI from '../../apis/postAPI';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { submitNewPost } from '../album/albumSlice';
+import { resetUploadState } from './uploadSlice';
 import styled from 'styled-components';
 import PhotoInputs from '../../components/uploadPage/PhotoInputs';
 import TextBox from '../../components/uploadPage/TextBox';
 import Button from '../../styles/Button';
 import GoBackButton from '../../components/GoBackButton';
+import Spinner from '../../components/Spinner';
 
 export default function Upload() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { albumId } = useAppSelector((state) => state.album);
   const { firstImg, secondImg, thirdImg, text } = useAppSelector((state) => state.upload);
+  const status = useAppSelector((state) => state.album.status);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!firstImg) {
       return; // no image. error case
     }
-
     const formData = new FormData();
     formData.append('photo1', firstImg);
     formData.append('photo2', secondImg);
     formData.append('photo3', thirdImg);
     formData.append('text', text);
     formData.append('albumId', `${albumId}`);
-
-    // send formData object
-    try {
-      // post + spinner on
-      console.log('???');
-      await postAPI.post('/new', formData, {
-        headers: {
-          'Content-Type': `multipart/form-data`,
-        },
-      });
-
-      navigate(-1);
-    } catch (err) {
-      alert(err);
-    } finally {
-      dispatch(resetUploadState());
-      // spinner off
-    }
+    dispatch(submitNewPost(formData)).then(() => navigate(-1));
   }
+  useEffect(() => {
+    dispatch(resetUploadState());
+  }, []);
 
   return (
     <>
+      {status === 'loading' ? <Spinner backgroundColor="rgb(0, 0, 0, 0.4)" /> : null}
       <GoBackButton />
       <PageTitle>Add New Post</PageTitle>
       <Form onSubmit={handleSubmit}>

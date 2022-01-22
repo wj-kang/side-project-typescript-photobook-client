@@ -1,13 +1,16 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { ImageFile } from './uploadAPI';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface ImageFile {
+  slot: 1 | 2 | 3;
+  file: Blob;
+}
 
 export interface UploadState {
   firstImg: Blob | string;
   secondImg: Blob | string;
   thirdImg: Blob | string;
   text: string;
-
-  status: string | undefined;
+  status: 'loading' | 'succeeded' | 'failed' | undefined;
   error: string | undefined;
 }
 
@@ -19,11 +22,6 @@ const initialState: UploadState = {
   status: undefined,
   error: undefined,
 };
-
-export const submitNewPost = createAsyncThunk('upload/submit', async () => {
-  const response = await 'something';
-  return response;
-});
 
 const uploadSlice = createSlice({
   name: 'upload',
@@ -51,7 +49,6 @@ const uploadSlice = createSlice({
       state.error = undefined;
     },
   },
-  extraReducers(builder) {},
 });
 
 export const { addImage, onChangeTextarea, resetUploadState } = uploadSlice.actions;
