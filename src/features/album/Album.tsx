@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,16 +9,17 @@ import GridItem from '../../components/mainPage/GridItem';
 import Content from '../content/Content';
 import GoBackButton from '../../components/GoBackButton';
 import Spinner from '../../components/Spinner';
+import { mediaQueries } from '../../styles/mediaQueries';
 
 function Album() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [isAlertOn, setAlertOn] = useState<boolean>(false);
   const { albumTag } = useParams();
   const { postIds, postThumbnailById, editModeOn, albumName, status } = useAppSelector((state) => state.album);
   const [contentOpen, setContentOpen] = useState({ isOpen: false, postId: 0 });
 
   useEffect(() => {
-    // eslint-disable-next-line no-restricted-globals
     if (!albumTag) return;
     if (postIds.length < 1) dispatch(fetchAlbum(albumTag));
     if (editModeOn) dispatch(setEditModeOff());
@@ -32,14 +34,20 @@ function Album() {
   }
 
   function handleClickShareLink() {
-    // copy link
-    // and popup message
+    // eslint-disable-next-line no-restricted-globals
+    navigator.clipboard.writeText(`${process.env.REACT_APP_CLIENT_URL}/shared/${albumTag}`);
+    setAlertOn(true);
+    setTimeout(() => setAlertOn(false), 2500);
   }
 
   return (
     <>
       {status === 'failed' ? navigate('/main') : null}
       {contentOpen.isOpen ? <Content postId={contentOpen.postId} handleClose={handleCloseContent} /> : null}
+
+      <AlertMessageContainer isAlertOn={isAlertOn}>
+        <AlertMessage>Link Copied!</AlertMessage>
+      </AlertMessageContainer>
 
       <Header>
         <Title>{albumName}</Title>
@@ -58,7 +66,7 @@ function Album() {
         {editModeOn ? null : (
           <>
             <ButtonContainer>
-              <Button variant="outlined" color="info">
+              <Button variant="outlined" color="info" onClick={handleClickShareLink}>
                 share link
               </Button>
             </ButtonContainer>
@@ -89,10 +97,27 @@ function Album() {
 
 export default Album;
 
+const AlertMessageContainer = styled.div<{ isAlertOn: boolean }>`
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 98;
+  text-align: center;
+  transition: all 200ms ease-in;
+  opacity: 0.85;
+  ${(props) => (props.isAlertOn ? 'top: 4rem;' : 'top: -4rem;')};
+`;
+
+const AlertMessage = styled.div`
+  height: 2.5rem;
+  line-height: 2.5rem;
+  background: #26c06c;
+  color: #ffffff;
+`;
 const Header = styled.div`
   position: relative;
+  width: 100%;
   display: flex;
-  align-items: center;
 `;
 
 const AbsoluteGoBackButton = styled(GoBackButton)`
@@ -102,26 +127,18 @@ const AbsoluteGoBackButton = styled(GoBackButton)`
 
 const Title = styled.h1`
   position: absolute;
-  right: 0;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   text-align: center;
   line-height: 100%;
 
   font-size: 1.625rem;
   color: #505050;
-`;
-
-const H3 = styled.h3`
-  margin-top: 8rem;
-  text-align: center;
-  font-size: 1.25rem;
-  color: #505050;
+  ${mediaQueries('md')('font-size: 1.5rem;')}
 `;
 
 const ButtonsContainer = styled.div`
-  margin: 0.5rem 0;
+  margin-top: 1rem;
   display: flex;
   justify-content: end;
   align-items: center;
@@ -129,6 +146,7 @@ const ButtonsContainer = styled.div`
 
 const ButtonContainer = styled.div`
   margin-left: 0.5rem;
+  ${mediaQueries('md')('margin-left: 0.3rem;')}
 `;
 
 const PostsContainer = styled.div`
@@ -136,4 +154,11 @@ const PostsContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+`;
+
+const H3 = styled.h3`
+  margin-top: 8rem;
+  text-align: center;
+  font-size: 1.25rem;
+  color: #505050;
 `;
