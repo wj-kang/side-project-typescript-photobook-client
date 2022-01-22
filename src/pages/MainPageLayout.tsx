@@ -1,23 +1,30 @@
-import { Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Breadcrumb from '../components/mainPage/Breadcrumb';
+import userAPI from '../apis/userAPI';
 import Navbar from '../components/Navbar';
 
-function Layout() {
+function MainPageLayout() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    userAPI //
+      .get('')
+      .catch(() => navigate('/'));
+  }, []);
+
   return (
     <Page>
       <NavbarPosition>
         <Navbar />
       </NavbarPosition>
       <PageContainer>
-        <Breadcrumb />
         <Outlet />
       </PageContainer>
     </Page>
   );
 }
 
-export default Layout;
+export default MainPageLayout;
 
 const Page = styled.div`
   display: flex;
