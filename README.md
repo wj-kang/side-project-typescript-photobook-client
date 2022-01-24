@@ -1,13 +1,12 @@
 # **📷 PhotoBook**</BR>**https://photobook.wonjunkang.com**
 
-### Keep the memory, share the albums.
+### PhotoBook is a web application having features of creating albums, uploading photos.
 
 </br>
 
 # **👨🏻‍💻 About**
 
-### This is an individual side project to practice and improve my web development knowledge. </br>PhotoBook is a web application having features of creating albums, uploading photos.
-
+### This is a personal project to practice and improve my web development knowledge. 
 
 </br>
 
@@ -28,7 +27,7 @@
 ### **Deployment /**
 
 - Used AWS **`S3 Static-hosting`** for the client app, and traffic comes through **`CloudFront`**.
-- Used AWS **`EC2`** instance and **`RDS`** for the database system.
+- Used an AWS **`EC2`** instance, and a **`RDS`** for the database system.
 
 </br>
 
